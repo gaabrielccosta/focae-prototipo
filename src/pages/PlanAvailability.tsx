@@ -1,10 +1,10 @@
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { Button } from '../components/Button';
-import { Card } from '../components/Card';
-import { PageHeader } from '../components/PageHeader';
-import { ProgressSteps } from '../components/ProgressSteps';
-import { durationOptions } from '../utils/planning';
-import type { AvailabilitySlot, Route, StudyPreferences } from '../types';
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Button } from "../components/Button";
+import { Card } from "../components/Card";
+import { PageHeader } from "../components/PageHeader";
+import { ProgressSteps } from "../components/ProgressSteps";
+import { durationOptions } from "../utils/planning";
+import type { AvailabilitySlot, Route, StudyPreferences } from "../types";
 
 interface PageProps {
   preferences: StudyPreferences;
@@ -12,14 +12,22 @@ interface PageProps {
   onNavigate: (route: Route) => void;
 }
 
-export function PlanAvailability({ preferences, onChangePreferences, onNavigate }: PageProps) {
+export function PlanAvailability({
+  preferences,
+  onChangePreferences,
+  onNavigate,
+}: PageProps) {
   function updateSlot(index: number, changes: Partial<AvailabilitySlot>) {
     const availability = preferences.availability.map((slot, slotIndex) => {
       if (slotIndex !== index) return slot;
 
       const nextSlot = { ...slot, ...changes };
       if (nextSlot.enabled && (!nextSlot.start || !nextSlot.end)) {
-        return { ...nextSlot, start: nextSlot.start || '19:00', end: nextSlot.end || '21:00' };
+        return {
+          ...nextSlot,
+          start: nextSlot.start || "19:00",
+          end: nextSlot.end || "21:00",
+        };
       }
 
       return nextSlot;
@@ -45,7 +53,9 @@ export function PlanAvailability({ preferences, onChangePreferences, onNavigate 
                 <input
                   type="checkbox"
                   checked={slot.enabled}
-                  onChange={(event) => updateSlot(index, { enabled: event.target.checked })}
+                  onChange={(event) =>
+                    updateSlot(index, { enabled: event.target.checked })
+                  }
                 />
                 <span>{slot.day}</span>
               </label>
@@ -55,7 +65,9 @@ export function PlanAvailability({ preferences, onChangePreferences, onNavigate 
                   type="time"
                   value={slot.start}
                   disabled={!slot.enabled}
-                  onChange={(event) => updateSlot(index, { start: event.target.value })}
+                  onChange={(event) =>
+                    updateSlot(index, { start: event.target.value })
+                  }
                 />
               </label>
               <label>
@@ -64,7 +76,9 @@ export function PlanAvailability({ preferences, onChangePreferences, onNavigate 
                   type="time"
                   value={slot.end}
                   disabled={!slot.enabled}
-                  onChange={(event) => updateSlot(index, { end: event.target.value })}
+                  onChange={(event) =>
+                    updateSlot(index, { end: event.target.value })
+                  }
                 />
               </label>
             </div>
@@ -75,17 +89,35 @@ export function PlanAvailability({ preferences, onChangePreferences, onNavigate 
           <span>Duração média de cada bloco</span>
           <select
             value={preferences.durationMinutes}
-            onChange={(event) => onChangePreferences({ ...preferences, durationMinutes: Number(event.target.value) })}
+            onChange={(event) =>
+              onChangePreferences({
+                ...preferences,
+                durationMinutes: Number(event.target.value),
+              })
+            }
           >
             {durationOptions.map((duration) => (
-              <option key={duration} value={duration}>{duration} minutos</option>
+              <option key={duration} value={duration}>
+                {duration} minutos
+              </option>
             ))}
           </select>
         </label>
 
-        <div className="form-actions">
-          <Button icon={ArrowLeft} variant="secondary" onClick={() => onNavigate('/agenda/criar-plano')}>Voltar</Button>
-          <Button icon={ArrowRight} onClick={() => onNavigate('/agenda/revisao')}>Continuar</Button>
+        <div className="form-actions plan-step-actions">
+          <Button
+            icon={ArrowLeft}
+            variant="secondary"
+            onClick={() => onNavigate("/agenda/criar-plano")}
+          >
+            Voltar
+          </Button>
+          <Button
+            icon={ArrowRight}
+            onClick={() => onNavigate("/agenda/revisao")}
+          >
+            Continuar
+          </Button>
         </div>
       </Card>
     </div>

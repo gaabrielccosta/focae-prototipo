@@ -29,7 +29,7 @@ export function PlanIntro({ onNavigate }: PageProps) {
           <li>Veja uma sugestão automática.</li>
           <li>Edite e salve o plano final.</li>
         </ul>
-        <div className="form-actions">
+        <div className="form-actions plan-step-actions">
           <Button icon={ArrowLeft} variant="secondary" onClick={() => onNavigate('/agenda')}>Voltar</Button>
           <Button icon={ArrowRight} onClick={() => onNavigate('/agenda/disponibilidade')}>Começar</Button>
         </div>

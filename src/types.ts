@@ -49,6 +49,7 @@ export interface StudyBlock {
   subject: string;
   reason: string;
   taskId?: number;
+  subjectId?: number;
 }
 
 export interface Subject {

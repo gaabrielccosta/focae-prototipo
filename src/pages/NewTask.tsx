@@ -1,10 +1,10 @@
-import { useState, type FormEvent } from 'react';
-import { AlertCircle, Save, X } from 'lucide-react';
-import { Button } from '../components/Button';
-import { Card } from '../components/Card';
-import { PageHeader } from '../components/PageHeader';
-import { addDays, toDateInputValue } from '../utils/taskUtils';
-import type { Priority, Route, Subject, TaskDraft, TaskType } from '../types';
+import { useState, type FormEvent } from "react";
+import { Save, X } from "lucide-react";
+import { Button } from "../components/Button";
+import { Card } from "../components/Card";
+import { PageHeader } from "../components/PageHeader";
+import { addDays, toDateInputValue } from "../utils/taskUtils";
+import type { Priority, Route, Subject, TaskDraft, TaskType } from "../types";
 
 interface PageProps {
   subjects: Subject[];
@@ -13,14 +13,23 @@ interface PageProps {
   forceError?: boolean;
 }
 
-export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false }: PageProps) {
-  const [title, setTitle] = useState(forceError ? '' : 'Trabalho de Psicologia');
-  const [subject, setSubject] = useState(subjects[0]?.name ?? '');
-  const [type, setType] = useState<TaskType>('Trabalho');
-  const [dueDate, setDueDate] = useState(() => toDateInputValue(addDays(new Date(), 6)));
-  const [dueTime, setDueTime] = useState('23:59');
-  const [priority, setPriority] = useState<Priority>('Alta');
-  const [reminder, setReminder] = useState('1 dia antes');
+export function NewTask({
+  subjects,
+  onCreateTask,
+  onNavigate,
+  forceError = false,
+}: PageProps) {
+  const [title, setTitle] = useState(
+    forceError ? "" : "Trabalho de Psicologia",
+  );
+  const [subject, setSubject] = useState(subjects[0]?.name ?? "");
+  const [type, setType] = useState<TaskType>("Trabalho");
+  const [dueDate, setDueDate] = useState(() =>
+    toDateInputValue(addDays(new Date(), 6)),
+  );
+  const [dueTime, setDueTime] = useState("23:59");
+  const [priority, setPriority] = useState<Priority>("Alta");
+  const [reminder, setReminder] = useState("1 dia antes");
   const [showError, setShowError] = useState(forceError);
   const [showDateError, setShowDateError] = useState(false);
   const [showTimeError, setShowTimeError] = useState(false);
@@ -50,7 +59,7 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
       reminder,
     });
 
-    onNavigate('/tarefas/sucesso');
+    onNavigate("/tarefas/sucesso");
   }
 
   return (
@@ -65,7 +74,9 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-grid two-columns">
             <label className="field field-full">
-              <span>Título da tarefa <strong aria-hidden="true">*</strong></span>
+              <span>
+                Título da tarefa <strong aria-hidden="true">*</strong>
+              </span>
               <input
                 value={title}
                 onChange={(event) => {
@@ -73,15 +84,22 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
                   setShowError(false);
                 }}
                 aria-invalid={showError}
-                aria-describedby={showError ? 'title-error' : undefined}
+                aria-describedby={showError ? "title-error" : undefined}
                 placeholder="Ex.: Trabalho de Psicologia"
               />
-              {showError && <small className="field-error" id="title-error">Digite um nome para a tarefa.</small>}
+              {showError && (
+                <small className="field-error" id="title-error">
+                  Digite um nome para a tarefa.
+                </small>
+              )}
             </label>
 
             <label className="field">
               <span>Disciplina</span>
-              <select value={subject} onChange={(event) => setSubject(event.target.value)}>
+              <select
+                value={subject}
+                onChange={(event) => setSubject(event.target.value)}
+              >
                 {subjects.map((subjectOption) => (
                   <option key={subjectOption.id}>{subjectOption.name}</option>
                 ))}
@@ -90,7 +108,10 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
 
             <label className="field">
               <span>Tipo</span>
-              <select value={type} onChange={(event) => setType(event.target.value as TaskType)}>
+              <select
+                value={type}
+                onChange={(event) => setType(event.target.value as TaskType)}
+              >
                 <option>Prova</option>
                 <option>Trabalho</option>
                 <option>Leitura</option>
@@ -109,9 +130,13 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
                   setShowDateError(false);
                 }}
                 aria-invalid={showDateError}
-                aria-describedby={showDateError ? 'date-error' : undefined}
+                aria-describedby={showDateError ? "date-error" : undefined}
               />
-              {showDateError && <small className="field-error" id="date-error">Escolha uma data de entrega.</small>}
+              {showDateError && (
+                <small className="field-error" id="date-error">
+                  Escolha uma data de entrega.
+                </small>
+              )}
             </label>
 
             <label className="field">
@@ -124,14 +149,23 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
                   setShowTimeError(false);
                 }}
                 aria-invalid={showTimeError}
-                aria-describedby={showTimeError ? 'time-error' : undefined}
+                aria-describedby={showTimeError ? "time-error" : undefined}
               />
-              {showTimeError && <small className="field-error" id="time-error">Escolha uma hora de entrega.</small>}
+              {showTimeError && (
+                <small className="field-error" id="time-error">
+                  Escolha uma hora de entrega.
+                </small>
+              )}
             </label>
 
             <label className="field">
               <span>Prioridade</span>
-              <select value={priority} onChange={(event) => setPriority(event.target.value as Priority)}>
+              <select
+                value={priority}
+                onChange={(event) =>
+                  setPriority(event.target.value as Priority)
+                }
+              >
                 <option>Alta</option>
                 <option>Média</option>
                 <option>Baixa</option>
@@ -140,7 +174,10 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
 
             <label className="field field-full">
               <span>Lembrete</span>
-              <select value={reminder} onChange={(event) => setReminder(event.target.value)}>
+              <select
+                value={reminder}
+                onChange={(event) => setReminder(event.target.value)}
+              >
                 <option>Sem lembrete</option>
                 <option>No dia</option>
                 <option>1 dia antes</option>
@@ -150,13 +187,23 @@ export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false
           </div>
 
           <div className="form-feedback" role="note">
-            <strong>Antes de salvar:</strong> revise o prazo, a disciplina e o lembrete da tarefa.
+            <strong>Antes de salvar:</strong> revise o prazo, a disciplina e o
+            lembrete da tarefa.
           </div>
 
           <div className="form-actions">
-            <Button icon={X} type="button" variant="secondary" onClick={() => onNavigate('/tarefas')}>Cancelar</Button>
-            <Button icon={AlertCircle} type="button" variant="ghost" onClick={() => { setTitle(''); setShowError(true); }}>Simular erro</Button>
-            <Button icon={Save} type="submit">Salvar tarefa</Button>
+            <Button
+              icon={X}
+              type="button"
+              variant="secondary"
+              onClick={() => onNavigate("/tarefas")}
+            >
+              Cancelar
+            </Button>
+            {/* <Button icon={AlertCircle} type="button" variant="ghost" onClick={() => { setTitle(''); setShowError(true); }}>Simular erro</Button> */}
+            <Button icon={Save} type="submit">
+              Salvar tarefa
+            </Button>
           </div>
         </form>
       </Card>

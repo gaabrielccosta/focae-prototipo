@@ -129,8 +129,15 @@ export default function App() {
     setDraftStudyBlocks(blocks);
   }
 
-  function generateDraftStudyBlocks() {
-    setDraftStudyBlocks(generateStudyBlocks(tasks, studyPreferences));
+  function generateDraftStudyBlocks(taskIds?: number[], subjectIds?: number[]) {
+    const selectedSubjects = subjectIds
+      ? subjects.filter((subject) => subjectIds.includes(subject.id))
+      : [];
+
+    setDraftStudyBlocks(generateStudyBlocks(tasks, studyPreferences, {
+      taskIds,
+      extraSubjects: selectedSubjects,
+    }));
   }
 
   const taskPageProps = {
@@ -167,7 +174,7 @@ export default function App() {
       page = <PlanAvailability preferences={studyPreferences} onChangePreferences={setStudyPreferences} onNavigate={navigate} />;
       break;
     case '/agenda/revisao':
-      page = <PlanReview tasks={tasks} onGeneratePlan={generateDraftStudyBlocks} onNavigate={navigate} />;
+      page = <PlanReview subjects={subjects} tasks={tasks} onGeneratePlan={generateDraftStudyBlocks} onNavigate={navigate} />;
       break;
     case '/agenda/sugestao':
       page = (
