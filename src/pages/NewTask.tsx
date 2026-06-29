@@ -4,17 +4,18 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
 import { addDays, toDateInputValue } from '../utils/taskUtils';
-import type { Priority, Route, TaskDraft, TaskType } from '../types';
+import type { Priority, Route, Subject, TaskDraft, TaskType } from '../types';
 
 interface PageProps {
+  subjects: Subject[];
   onCreateTask: (draft: TaskDraft) => void;
   onNavigate: (route: Route) => void;
   forceError?: boolean;
 }
 
-export function NewTask({ onCreateTask, onNavigate, forceError = false }: PageProps) {
+export function NewTask({ subjects, onCreateTask, onNavigate, forceError = false }: PageProps) {
   const [title, setTitle] = useState(forceError ? '' : 'Trabalho de Psicologia');
-  const [subject, setSubject] = useState('Psicologia');
+  const [subject, setSubject] = useState(subjects[0]?.name ?? '');
   const [type, setType] = useState<TaskType>('Trabalho');
   const [dueDate, setDueDate] = useState(() => toDateInputValue(addDays(new Date(), 6)));
   const [dueTime, setDueTime] = useState('23:59');
@@ -81,10 +82,9 @@ export function NewTask({ onCreateTask, onNavigate, forceError = false }: PagePr
             <label className="field">
               <span>Disciplina</span>
               <select value={subject} onChange={(event) => setSubject(event.target.value)}>
-                <option>Psicologia</option>
-                <option>Estatística</option>
-                <option>Cálculo</option>
-                <option>Metodologia Científica</option>
+                {subjects.map((subjectOption) => (
+                  <option key={subjectOption.id}>{subjectOption.name}</option>
+                ))}
               </select>
             </label>
 

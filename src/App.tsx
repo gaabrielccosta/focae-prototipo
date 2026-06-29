@@ -5,6 +5,7 @@ import { TaskCompletedToast } from './components/TaskCompletedToast';
 import { Agenda } from './pages/Agenda';
 import { Home } from './pages/Home';
 import { NewTask } from './pages/NewTask';
+import { NewSubject } from './pages/NewSubject';
 import { Placeholder } from './pages/Placeholder';
 import { PlanAvailability } from './pages/PlanAvailability';
 import { PlanIntro } from './pages/PlanIntro';
@@ -13,10 +14,10 @@ import { PlanSuggestion } from './pages/PlanSuggestion';
 import { PlanSuccess } from './pages/PlanSuccess';
 import { TaskSuccess } from './pages/TaskSuccess';
 import { Tasks } from './pages/Tasks';
-import { suggestedBlocks as initialStudyBlocks, tasks as initialTasks } from './data/mockData';
+import { subjects as initialSubjects, suggestedBlocks as initialStudyBlocks, tasks as initialTasks } from './data/mockData';
 import { defaultStudyPreferences, generateStudyBlocks } from './utils/planning';
 import { createTaskFromDraft, getInitialTaskStatus } from './utils/taskUtils';
-import type { AppSettings, Route, StudyBlock, StudyPreferences, Task, TaskDraft } from './types';
+import type { AppSettings, Route, StudyBlock, StudyPreferences, Subject, SubjectDraft, Task, TaskDraft } from './types';
 import './index.css';
 
 const validRoutes: Route[] = [
@@ -32,6 +33,7 @@ const validRoutes: Route[] = [
   '/agenda/sugestao',
   '/agenda/sucesso',
   '/disciplinas',
+  '/disciplinas/nova',
   '/configuracoes',
 ];
 
@@ -43,6 +45,7 @@ function getRouteFromHash(): Route {
 export default function App() {
   const [route, setRoute] = useState<Route>(getRouteFromHash);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [subjects, setSubjects] = useState<Subject[]>(initialSubjects);
   const [lastCreatedTask, setLastCreatedTask] = useState<Task | null>(null);
   const [studyPreferences, setStudyPreferences] = useState<StudyPreferences>(defaultStudyPreferences);
   const [draftStudyBlocks, setDraftStudyBlocks] = useState<StudyBlock[]>(initialStudyBlocks);
@@ -71,6 +74,20 @@ export default function App() {
 
     setTasks((currentTasks) => [...currentTasks, createdTask]);
     setLastCreatedTask(createdTask);
+  }
+
+  function createSubject(draft: SubjectDraft) {
+    const nextId = subjects.reduce((highestId, subject) => Math.max(highestId, subject.id), 0) + 1;
+
+    setSubjects((currentSubjects) => [
+      ...currentSubjects,
+      {
+        id: nextId,
+        ...draft,
+        pending: 0,
+        progress: 100,
+      },
+    ]);
   }
 
   function undoCreateTask() {
@@ -132,10 +149,10 @@ export default function App() {
       page = <Tasks onNavigate={navigate} {...taskPageProps} />;
       break;
     case '/tarefas/nova':
-      page = <NewTask onCreateTask={createTask} onNavigate={navigate} />;
+      page = <NewTask subjects={subjects} onCreateTask={createTask} onNavigate={navigate} />;
       break;
     case '/tarefas/nova-erro':
-      page = <NewTask onCreateTask={createTask} onNavigate={navigate} forceError />;
+      page = <NewTask subjects={subjects} onCreateTask={createTask} onNavigate={navigate} forceError />;
       break;
     case '/tarefas/sucesso':
       page = <TaskSuccess lastCreatedTask={lastCreatedTask} onNavigate={navigate} onUndoCreateTask={undoCreateTask} />;
@@ -167,7 +184,10 @@ export default function App() {
       page = <PlanSuccess studyBlocks={savedStudyBlocks} onNavigate={navigate} />;
       break;
     case '/disciplinas':
-      page = <Placeholder tasks={tasks} type="disciplinas" />;
+      page = <Placeholder subjects={subjects} tasks={tasks} type="disciplinas" onNavigate={navigate} />;
+      break;
+    case '/disciplinas/nova':
+      page = <NewSubject subjects={subjects} onCreateSubject={createSubject} onNavigate={navigate} />;
       break;
     case '/configuracoes':
       page = <Placeholder settings={settings} type="configuracoes" onChangeSettings={setSettings} />;

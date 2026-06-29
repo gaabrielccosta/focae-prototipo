@@ -11,6 +11,7 @@ export type Route =
   | '/agenda/sugestao'
   | '/agenda/sucesso'
   | '/disciplinas'
+  | '/disciplinas/nova'
   | '/configuracoes';
 
 export type Priority = 'Alta' | 'Média' | 'Baixa';
@@ -57,6 +58,12 @@ export interface Subject {
   color: string;
   pending: number;
   progress: number;
+}
+
+export interface SubjectDraft {
+  name: string;
+  professor: string;
+  color: string;
 }
 
 export interface AvailabilitySlot {

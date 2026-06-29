@@ -14,6 +14,13 @@ interface PageProps {
   onNavigate: (route: Route) => void;
 }
 
+function compareTasksByDueDate(firstTask: Task, secondTask: Task) {
+  const dateDifference = firstTask.dueDate.localeCompare(secondTask.dueDate);
+  if (dateDifference !== 0) return dateDifference;
+
+  return firstTask.dueTime.localeCompare(secondTask.dueTime);
+}
+
 export function Tasks({
   tasks,
   onCompleteTask,
@@ -32,7 +39,7 @@ export function Tasks({
       const matchesPriority = priorityFilter === 'Todas' || task.priority === priorityFilter;
       const matchesStatus = statusFilter === 'Todos' || status === statusFilter;
       return matchesSubject && matchesPriority && matchesStatus;
-    })
+    }).sort(compareTasksByDueDate)
   ), [priorityFilter, statusFilter, subjectFilter, tasks]);
 
   return (

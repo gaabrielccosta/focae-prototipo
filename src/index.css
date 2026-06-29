@@ -18,7 +18,7 @@
   --green: #15803d;
   --green-soft: #dcfce7;
   --orange: #b45309;
-  --orange-soft: #ffedd5;
+  --orange-soft: #fff7ed;
   --red: #b91c1c;
   --red-soft: #fee2e2;
   --slate-900: #0f172a;
@@ -644,6 +644,26 @@ input[aria-invalid='true'] {
   grid-template-columns: repeat(2, 1fr);
 }
 
+.subject-form-grid {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(220px, 0.8fr);
+  align-items: start;
+}
+
+.color-picker-row {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.compact-color-picker {
+  max-width: 320px;
+}
+
+.color-input {
+  min-height: 44px;
+  padding: 4px;
+}
+
 .field-full {
   grid-column: 1 / -1;
 }
@@ -660,6 +680,10 @@ input[aria-invalid='true'] {
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.success-actions {
+  justify-content: center;
 }
 
 .form-feedback,
@@ -867,6 +891,26 @@ input[aria-invalid='true'] {
 
 .calendar-card {
   min-height: 520px;
+  display: grid;
+  gap: 16px;
+}
+
+.calendar-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.calendar-toolbar h2 {
+  margin: 0;
+}
+
+.calendar-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .week-grid {
@@ -884,6 +928,32 @@ input[aria-invalid='true'] {
   padding: 14px;
   text-align: center;
   border-right: 1px solid #bfdbfe;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.week-day span,
+.week-day small {
+  font-size: 0.78rem;
+}
+
+.week-day span {
+  text-transform: uppercase;
+}
+
+.week-day strong {
+  font-size: 1.06rem;
+}
+
+.week-day small {
+  min-height: 1rem;
+}
+
+.week-day-today {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
 }
 
 .week-cell {
@@ -895,6 +965,14 @@ input[aria-invalid='true'] {
   display: grid;
   align-content: start;
   gap: 10px;
+  min-width: 0;
+}
+
+.calendar-cell-list {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-width: 0;
 }
 
 .week-day:nth-child(7),
@@ -909,12 +987,83 @@ input[aria-invalid='true'] {
   border-radius: 14px;
   display: grid;
   gap: 5px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.agenda-task {
+  border-left: 5px solid var(--orange);
+  background: var(--orange-soft);
+  padding: 12px;
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.agenda-task strong,
+.study-block strong,
+.agenda-task small,
+.study-block small,
+.agenda-item-label {
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.agenda-task small {
+  color: var(--slate-700);
+}
+
+.agenda-task .badge {
+  justify-self: start;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.agenda-task-pendente {
+  border-left-color: var(--orange);
+  background: var(--orange-soft);
+}
+
+.agenda-task-atrasada {
+  border-left-color: var(--red);
+  background: var(--red-soft);
+}
+
+.agenda-task-concluida {
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.agenda-item-label {
+  color: var(--blue-dark);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.agenda-task-pendente .agenda-item-label {
+  color: var(--orange);
+}
+
+.agenda-task-atrasada .agenda-item-label {
+  color: var(--red);
+}
+
+.agenda-task-concluida .agenda-item-label {
+  color: var(--green);
 }
 
 .study-block span,
 .study-block small,
 .empty-slot {
   color: var(--slate-600);
+}
+
+.study-block .agenda-item-label {
+  color: var(--blue-dark);
 }
 
 .empty-slot {

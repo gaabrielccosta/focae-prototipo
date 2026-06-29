@@ -1,4 +1,8 @@
 import type { StudyBlock, Subject, Task } from '../types';
+import { addDays, toDateInputValue } from '../utils/taskUtils';
+
+const referenceDate = new Date();
+const relativeDate = (daysFromToday: number) => toDateInputValue(addDays(referenceDate, daysFromToday));
 
 export const tasks: Task[] = [
   {
@@ -7,7 +11,7 @@ export const tasks: Task[] = [
     subject: 'Psicologia',
     type: 'Trabalho',
     due: 'Amanhã, 23:59',
-    dueDate: '2026-06-23',
+    dueDate: relativeDate(1),
     dueTime: '23:59',
     priority: 'Alta',
     status: 'Pendente',
@@ -19,7 +23,7 @@ export const tasks: Task[] = [
     subject: 'Estatística',
     type: 'Prova',
     due: 'Em 3 dias',
-    dueDate: '2026-06-25',
+    dueDate: relativeDate(3),
     dueTime: '08:00',
     priority: 'Alta',
     status: 'Pendente',
@@ -31,7 +35,7 @@ export const tasks: Task[] = [
     subject: 'Cálculo',
     type: 'Exercício',
     due: 'Ontem, 18:00',
-    dueDate: '2026-06-21',
+    dueDate: relativeDate(-1),
     dueTime: '18:00',
     priority: 'Média',
     status: 'Atrasada',
@@ -43,7 +47,7 @@ export const tasks: Task[] = [
     subject: 'Metodologia Científica',
     type: 'Leitura',
     due: 'Concluída ontem',
-    dueDate: '2026-06-21',
+    dueDate: relativeDate(-1),
     dueTime: '20:00',
     priority: 'Baixa',
     status: 'Concluída',

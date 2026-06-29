@@ -1,14 +1,17 @@
+import { Plus } from 'lucide-react';
 import { Badge } from '../components/Badge';
+import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PageHeader } from '../components/PageHeader';
-import { subjects } from '../data/mockData';
 import { getSubjectSummaries } from '../utils/taskUtils';
-import type { AppSettings, Task } from '../types';
+import type { AppSettings, Route, Subject, Task } from '../types';
 
 interface PlaceholderProps {
   type: 'disciplinas' | 'configuracoes';
+  subjects?: Subject[];
   tasks?: Task[];
   settings?: AppSettings;
+  onNavigate?: (route: Route) => void;
   onChangeSettings?: (settings: AppSettings) => void;
 }
 
@@ -18,7 +21,14 @@ const defaultSettings: AppSettings = {
   reminders: true,
 };
 
-export function Placeholder({ type, tasks = [], settings = defaultSettings, onChangeSettings }: PlaceholderProps) {
+export function Placeholder({
+  type,
+  subjects = [],
+  tasks = [],
+  settings = defaultSettings,
+  onNavigate,
+  onChangeSettings,
+}: PlaceholderProps) {
   function updateSettings(changes: Partial<AppSettings>) {
     onChangeSettings?.({ ...settings, ...changes });
   }
@@ -29,10 +39,15 @@ export function Placeholder({ type, tasks = [], settings = defaultSettings, onCh
     return (
       <div className="page-grid">
         <PageHeader
-          eyebrow="Estrutura prevista"
+          eyebrow="Disciplinas"
           title="Disciplinas"
-          description="Tela de apoio para demonstrar a estrutura da informação, mesmo sem fluxo completo na apresentação."
-        />
+          description="Cadastre matérias, acompanhe pendências e veja o progresso por disciplina."
+        >
+          <Button icon={Plus} onClick={() => onNavigate?.('/disciplinas/nova')}>
+            Nova disciplina
+          </Button>
+        </PageHeader>
+
         <section className="subject-grid" aria-label="Disciplinas cadastradas">
           {subjectSummaries.map((subject) => (
             <Card key={subject.id} className="subject-card">
@@ -48,6 +63,11 @@ export function Placeholder({ type, tasks = [], settings = defaultSettings, onCh
               </div>
             </Card>
           ))}
+          {subjectSummaries.length === 0 && (
+            <Card className="empty-pending-card">
+              <p>Nenhuma disciplina cadastrada no momento.</p>
+            </Card>
+          )}
         </section>
       </div>
     );
