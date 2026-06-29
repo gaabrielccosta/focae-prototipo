@@ -197,7 +197,7 @@ export default function App() {
   }
 
   return (
-    <AppShell route={route} onNavigate={navigate}>
+    <AppShell route={route} tasks={tasks} remindersEnabled={settings.reminders} onNavigate={navigate}>
       <Toaster position="top-right" gutter={12} toastOptions={{ duration: 8000 }} />
       {page}
     </AppShell>
